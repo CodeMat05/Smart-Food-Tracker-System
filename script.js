@@ -1,5 +1,6 @@
 let editMode = false;
 let currentCard = null;
+let activities = [];
 
 function showPage(pageId, button){
 
@@ -58,34 +59,34 @@ function updateDashboard(){
     .textContent = "₱" + today;
 }
 
-function updateBudget(){
+function updateBudgetUsage(){
 
-  let budget =
-    document.getElementById("budgetInput").value;
-
-  if(budget === "" || budget <= 0) return;
-
-  document.getElementById("budgetDisplay")
-    .innerText = "₱" + budget;
+  const cards =
+    document.querySelectorAll(".expense-card");
 
   let totalExpense = 0;
 
-  document
-    .querySelectorAll(".expense-card")
-    .forEach(card => {
+  cards.forEach(card => {
 
-      const price = Number(
-        card.querySelector(".price")
-          .textContent.replace("₱","")
-      );
+    totalExpense += Number(
+      card.querySelector(".price")
+        .textContent.replace("₱","")
+    );
 
-      totalExpense += price;
-    });
+  });
 
-  let remaining = budget - totalExpense;
+  const budgetText =
+    document.getElementById("budgetDisplay")
+      .textContent.replace("₱","");
+
+  const budget = Number(budgetText);
+
+  if(budget <= 0) return;
+
+  const remaining = budget - totalExpense;
 
   document.getElementById("remainingBudget")
-    .innerText = "₱" + remaining;
+    .textContent = "₱" + remaining;
 
   let percent =
     (totalExpense / budget) * 100;
@@ -98,9 +99,23 @@ function updateBudget(){
     .style.width = percent + "%";
 
   document.getElementById("progressText")
-    .innerText =
-    "₱" + totalExpense + " of ₱" + budget + " used";
+    .textContent =
+    "₱" + totalExpense +
+    " of ₱" + budget +
+    " used";
+}
 
+function updateBudget(){
+
+  let budget =
+    document.getElementById("budgetInput").value;
+
+  if(budget === "") return;
+
+  document.getElementById("budgetDisplay")
+    .textContent = "₱" + budget;
+
+  updateBudgetUsage();
 }
 
 let selectedCategory = "Meals";
@@ -209,6 +224,10 @@ function addExpense(){
     .prepend(card);
 
   updateDashboard();
+  updateBudgetUsage();
+
+  updateRecentExpenses();
+  addActivity("Added " + name);
 
   clearForm();
 
@@ -287,6 +306,10 @@ function deleteExpense(button){
   card.remove();
 
   updateDashboard();
+  updateBudgetUsage();
+
+  updateRecentExpenses();
+  addActivity("Deleted " + itemName);
 
   showToast(itemName + " deleted successfully!", "success");
 
@@ -392,6 +415,10 @@ function updateExpense(){
     "₱" + price;
   
   updateDashboard();
+  updateBudgetUsage();
+
+  updateRecentExpenses();
+  addActivity("Updated " + name);
 
   editMode = false;
   currentCard = null;
@@ -429,4 +456,66 @@ function showToast(message, type = "success") {
   }, 2000);
 }
 
+function updateRecentExpenses(){
+
+  const container =
+    document.getElementById("recentExpenses");
+
+  const cards =
+    document.querySelectorAll(".expense-card");
+
+  container.innerHTML = "";
+
+  let count = 0;
+
+  cards.forEach(card => {
+
+    if(count >= 5) return;
+
+    const name =
+      card.querySelector("h3").textContent;
+
+    const price =
+      card.querySelector(".price").textContent;
+
+    container.innerHTML += `
+      <div class="recent-item">
+        <span>${name}</span>
+        <strong>${price}</strong>
+      </div>
+    `;
+
+    count++;
+
+  });
+
+}
+
+function addActivity(text){
+
+  activities.unshift(text);
+
+  if(activities.length > 5){
+    activities.pop();
+  }
+
+  const container =
+    document.getElementById("activityList");
+
+  container.innerHTML = "";
+
+  activities.forEach(item => {  
+
+    container.innerHTML += `
+      <div class="activity-item">
+        ${item}
+      </div>
+    `;
+
+  });
+
+}
+
 updateDashboard();
+updateRecentExpenses();
+updateBudgetUsage();
