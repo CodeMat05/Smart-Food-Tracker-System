@@ -346,6 +346,10 @@ body{
   cursor:pointer;
 }
 
+.active-filter{
+  background:#1d4ed8 !important;
+}
+
 .expense-list{
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(260px,1fr));

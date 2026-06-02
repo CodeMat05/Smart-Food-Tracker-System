@@ -1,6 +1,7 @@
 let editMode = false;
 let currentCard = null;
 let activities = [];
+let currentFilter = "All";
 
 function showPage(pageId, button){
 
@@ -235,6 +236,22 @@ function addExpense(){
 
 }
 
+function deleteExpense(button){ 
+  const card = button.closest(".expense-card"); 
+  const itemName = card.querySelector("h3").textContent; 
+  
+  card.remove(); 
+  
+  updateDashboard(); 
+  updateBudgetUsage(); 
+  
+  updateRecentExpenses(); 
+  addActivity("Deleted " + itemName); 
+  
+  showToast(itemName + " deleted successfully!", "success"); 
+}
+
+
 function clearForm(){
 
   document.getElementById('foodName').value = "";
@@ -244,29 +261,19 @@ function clearForm(){
   updatePreview();
 }
 
-function filterExpenses(category){
+function filterExpenses(category, button){
 
-  const cards =
-    document.querySelectorAll(".expense-card");
+  currentFilter = category;
 
-  cards.forEach(card => {
+  document
+    .querySelectorAll(".filter-buttons button")
+    .forEach(btn =>
+      btn.classList.remove("active-filter")
+    );
 
-    const cardCategory =
-      card.querySelectorAll("p")[0]
-      .textContent
-      .replace("Category: ","");
+  button.classList.add("active-filter");
 
-    if(category === "All"){
-      card.style.display = "block";
-    }
-    else if(cardCategory === category){
-      card.style.display = "block";
-    }
-    else{
-      card.style.display = "none";
-    }
-
-  });
+  searchExpenses();
 
 }
 
@@ -280,6 +287,8 @@ function searchExpenses(){
   const cards =
     document.querySelectorAll(".expense-card");
 
+  let visibleCount = 0;
+
   cards.forEach(card => {
 
     const title =
@@ -287,8 +296,21 @@ function searchExpenses(){
         .textContent
         .toLowerCase();
 
-    if(title.includes(searchValue)){
+    const category =
+      card.querySelectorAll("p")[0]
+        .textContent
+        .replace("Category: ","");
+
+    const matchesSearch =
+      title.includes(searchValue);
+
+    const matchesCategory =
+      currentFilter === "All" ||
+      category === currentFilter;
+
+    if(matchesSearch && matchesCategory){
       card.style.display = "block";
+      visibleCount++;
     }
     else{
       card.style.display = "none";
@@ -296,23 +318,8 @@ function searchExpenses(){
 
   });
 
-}
-
-function deleteExpense(button){
-
-  const card = button.closest(".expense-card");
-  const itemName = card.querySelector("h3").textContent;
-
-  card.remove();
-
-  updateDashboard();
-  updateBudgetUsage();
-
-  updateRecentExpenses();
-  addActivity("Deleted " + itemName);
-
-  showToast(itemName + " deleted successfully!", "success");
-
+  document.getElementById("noResults").style.display =
+    visibleCount === 0 ? "block" : "none";
 }
 
 function editExpense(button){
@@ -397,6 +404,11 @@ function updateExpense(){
 
   const date =
     document.getElementById("expenseDate").value;
+
+    if(name === "" || price === "" || date === ""){
+      showToast("Please complete all fields", "error");
+      return;
+    }
 
   currentCard.querySelector("h3")
     .textContent =
