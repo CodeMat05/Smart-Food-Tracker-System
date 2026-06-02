@@ -2,6 +2,7 @@ let editMode = false;
 let currentCard = null;
 let activities = [];
 let currentFilter = "All";
+let deleteTarget = null;
 
 function showPage(pageId, button){
 
@@ -86,14 +87,52 @@ function updateBudgetUsage(){
 
   const remaining = budget - totalExpense;
 
+  const displayRemaining = remaining < 0 ? 0 : remaining;
+
   document.getElementById("remainingBudget")
-    .textContent = "₱" + remaining;
+    .textContent = "₱" + displayRemaining;
+
+  if(remaining < 0){
+
+    const overBudget = Math.abs(remaining);
+
+    document.getElementById("remainingBudget")
+      .style.color = "#ef4444";
+
+    document.getElementById("overBudgetText")
+      .textContent = "Over Budget: ₱" + overBudget;
+
+    document.getElementById("overBudgetText")
+      .style.color = "#ef4444";
+
+  } else {
+
+    document.getElementById("remainingBudget")
+      .style.color = "#2563eb";
+
+    document.getElementById("overBudgetText")
+      .textContent = "";
+
+  }
 
   let percent =
     (totalExpense / budget) * 100;
 
   if(percent > 100){
     percent = 100;
+  }
+
+  const progressFill =
+    document.getElementById("progressFill");
+
+  if(percent >= 100){
+    progressFill.style.background = "#ef4444"; // red
+  }
+  else if(percent >= 80){
+    progressFill.style.background = "#f59e0b"; // orange
+  }
+  else{
+    progressFill.style.background = "#2563eb"; // blue
   }
 
   document.getElementById("progressFill")
@@ -236,19 +275,33 @@ function addExpense(){
 
 }
 
-function deleteExpense(button){ 
-  const card = button.closest(".expense-card"); 
-  const itemName = card.querySelector("h3").textContent; 
-  
-  card.remove(); 
-  
-  updateDashboard(); 
-  updateBudgetUsage(); 
-  
-  updateRecentExpenses(); 
-  addActivity("Deleted " + itemName); 
-  
-  showToast(itemName + " deleted successfully!", "success"); 
+function deleteExpense(button){
+  deleteTarget = button.closest(".expense-card");
+  document.getElementById("confirmModal").style.display = "flex";
+}
+
+function confirmDelete(){
+
+  if(!deleteTarget) return;
+
+  const name = deleteTarget.querySelector("h3").textContent;
+
+  deleteTarget.remove();
+  deleteTarget = null;
+
+  updateDashboard();
+  updateBudgetUsage();
+  updateRecentExpenses();
+  addActivity("Deleted " + name);
+
+  showToast("Expense deleted successfully!", "success");
+
+  closeModal();
+}
+
+function closeModal(){
+  document.getElementById("confirmModal").style.display = "none";
+  deleteTarget = null;
 }
 
 
