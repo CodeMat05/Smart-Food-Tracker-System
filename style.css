@@ -206,9 +206,26 @@ body{
 }
 
 .activity-item{
-  padding:12px 0;
-  border-bottom:1px solid #e2e8f0;
-  color:#475569;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #475569;
+  transition: 0.2s ease;
+}
+
+.activity-item:hover{
+  background: #f8fafc;
+  transform: translateX(4px);
+}
+
+.activity-icon{
+  font-size: 18px;
+}
+
+.activity-text{
+  font-size: 14px;
 }
 
 .budget-controls{
@@ -612,6 +629,28 @@ button:focus {
   background:#ef4444;
   color:white;
   cursor:pointer;
+}
+
+.empty-activity{
+  text-align: center;
+  padding: 25px;
+  color: #64748b;
+}
+
+.empty-icon{
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.empty-title{
+  font-weight: bold;
+  color: #1e293b;
+  margin-bottom: 5px;
+}
+
+.empty-text{
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .nav-btn.active,

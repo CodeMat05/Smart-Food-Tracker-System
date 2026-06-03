@@ -19,6 +19,10 @@ function showPage(pageId, button){
       });
 
       button.classList.add('active');
+
+      if(pageId !== "addExpense"){
+        resetEditState();
+      }
 }
 
 function updateDashboard(){
@@ -317,7 +321,8 @@ function clearForm(){
 
   document.getElementById('foodName').value = "";
   document.getElementById('price').value = "";
-  document.getElementById('expenseDate').value = "";
+  document.getElementById('expenseDate').value =
+    new Date().toISOString().split("T")[0];
 
   updatePreview();
 }
@@ -455,12 +460,7 @@ function editExpense(button){
 
 function cancelEdit(){
 
-  editMode = false;
-  currentCard = null;
-
-  document.getElementById("submitBtn").textContent = "Add Expense";
-
-  document.getElementById("cancelEditBtn").style.display = "none";
+  resetEditState();
 
   clearForm();
 
@@ -513,10 +513,7 @@ function updateExpense(){
   updateRecentExpenses();
   addActivity("Updated " + name);
 
-  editMode = false;
-  currentCard = null;
-
-  document.getElementById("submitBtn").textContent = "Add Expense";
+  resetEditState();
 
   clearForm();
   showToast("Expense updated successfully!", "success");
@@ -575,6 +572,14 @@ function updateRecentExpenses(){
 
 }
 
+function resetEditState(){
+  editMode = false;
+  currentCard = null;
+
+  document.getElementById("submitBtn").textContent = "Add Expense";
+  document.getElementById("cancelEditBtn").style.display = "none";
+}
+
 function addActivity(text){
 
   activities.unshift(text);
@@ -590,9 +595,16 @@ function addActivity(text){
 
   activities.forEach(item => {  
 
+    const icon =
+      item.includes("Added") ? "🟢" :
+      item.includes("Deleted") ? "🔴" :
+      item.includes("Updated") ? "🟡" :
+      "📌";
+
     container.innerHTML += `
       <div class="activity-item">
-        ${item}
+        <span class="activity-icon">${icon}</span>
+        <span class="activity-text">${item}</span>
       </div>
     `;
 
