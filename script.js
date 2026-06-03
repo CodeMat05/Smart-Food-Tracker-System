@@ -442,17 +442,32 @@ function editExpense(button){
   document.getElementById("submitBtn")
     .textContent = "Update Expense";
 
+  document.getElementById("cancelEditBtn")
+    .style.display = "block";
+
   editMode = true;
 
   updatePreview();
 
-  document
-    .getElementById("addExpense")
-    .classList.add("active");
+  const addBtn = document.querySelectorAll(".nav-btn")[1];
+  showPage("addExpense", addBtn);
+}
 
-  document
-    .getElementById("expenseList")
-    .classList.remove("active");
+function cancelEdit(){
+
+  editMode = false;
+  currentCard = null;
+
+  document.getElementById("submitBtn").textContent = "Add Expense";
+
+  document.getElementById("cancelEditBtn").style.display = "none";
+
+  clearForm();
+
+  showToast("Edit cancelled", "success");
+
+  const listBtn = document.querySelectorAll(".nav-btn")[2];
+  showPage("expenseList", listBtn);
 }
 
 function updateExpense(){
@@ -504,20 +519,11 @@ function updateExpense(){
   document.getElementById("submitBtn").textContent = "Add Expense";
 
   clearForm();
-
   showToast("Expense updated successfully!", "success");
 
-  document.querySelectorAll(".page")
-  .forEach(page => page.classList.remove("active"));
-
-  document.getElementById("expenseList")
-    .classList.add("active");
-
-  document.querySelectorAll(".nav-btn")
-    .forEach(btn => btn.classList.remove("active"));
-
-  document.querySelectorAll(".nav-btn")[2]
-    .classList.add("active");
+  // ONLY THIS handles page switching properly
+  const listBtn = document.querySelectorAll(".nav-btn")[2];
+  showPage("expenseList", listBtn);
 }
 
 function showToast(message, type = "success") {
@@ -531,7 +537,7 @@ function showToast(message, type = "success") {
 
   setTimeout(() => {
     toast.classList.remove("show");
-  }, 2000);
+  }, 2000); 
 }
 
 function updateRecentExpenses(){
