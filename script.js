@@ -275,10 +275,8 @@ function addExpense(){
     .getElementById("expenseListContainer")
     .prepend(card);
 
-  updateDashboard();
-  updateBudgetUsage();
+  refreshAll();
 
-  updateRecentExpenses();
   addActivity("Added " + name);
 
   clearForm();
@@ -301,9 +299,8 @@ function confirmDelete(){
   deleteTarget.remove();
   deleteTarget = null;
 
-  updateDashboard();
-  updateBudgetUsage();
-  updateRecentExpenses();
+  refreshAll();
+
   addActivity("Deleted " + name);
 
   showToast("Expense deleted successfully!", "success");
@@ -507,10 +504,8 @@ function updateExpense(){
     .textContent =
     "₱" + price;
   
-  updateDashboard();
-  updateBudgetUsage();
-
-  updateRecentExpenses();
+  refreshAll();
+  
   addActivity("Updated " + name);
 
   resetEditState();
@@ -547,6 +542,16 @@ function updateRecentExpenses(){
 
   container.innerHTML = "";
 
+  if(cards.length === 0){
+    container.innerHTML = `
+      <div class="empty-state">
+        🍔 No expenses yet<br>
+        <small>Add your first food expense to start tracking.</small>
+      </div>
+    `;
+    return;
+  }
+
   let count = 0;
 
   cards.forEach(card => {
@@ -561,7 +566,7 @@ function updateRecentExpenses(){
 
     container.innerHTML += `
       <div class="recent-item">
-        <span>${name}</span>
+        <div style="font-weight:bold;">${name}</div>
         <strong>${price}</strong>
       </div>
     `;
@@ -612,9 +617,13 @@ function addActivity(text){
 
 }
 
-updateDashboard();
-updateRecentExpenses();
-updateBudgetUsage();
+function refreshAll(){
+  updateDashboard();
+  updateBudgetUsage();
+  updateRecentExpenses();
+}
+
+refreshAll();
 
 document.getElementById("expenseDate").value =
   new Date().toISOString().split("T")[0];
