@@ -1,3 +1,6 @@
+html {
+  scroll-behavior: smooth;
+} 
 
 *{
     margin:0;
@@ -50,11 +53,15 @@ body{
     transition:0.3s;
 }
 
-.menu button:hover,
-.menu button.active{
-    background:white;
-    color:#2563eb;
-    font-weight:bold;
+.menu button:hover {
+  background: rgba(255,255,255,0.25);
+  transform: translateX(6px);
+}
+
+.menu button.active {
+  background: white;
+  color: #2563eb;
+  font-weight: bold;
 }
 
 .quote{
@@ -65,6 +72,15 @@ body{
     line-height:1.5;
 }
 
+.quote {
+  transition: all 0.2s ease;
+}
+
+.quote:hover {
+  transform: scale(1.03);
+  background: rgba(255,255,255,0.18);
+}
+
 /* MAIN */
 
 .main{
@@ -72,12 +88,17 @@ body{
     padding:28px;
 }
 
-.page{
-    display:none;
+.page {
+  display: none;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.25s ease;
 }
 
-.page.active{
-    display:block;
+.page.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .topbar{
@@ -113,6 +134,15 @@ body{
     padding:22px;
     border-radius:18px;
     box-shadow:0 4px 10px rgba(0,0,0,0.06);
+}
+
+.summary-card {
+  transition: all 0.25s ease;
+}
+
+.summary-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.12);
 }
 
 .summary-card h4{
@@ -168,9 +198,13 @@ body{
 }
 
 .progress-fill{
-  width:25%;
+  width:0%;
   height:100%;
   background:#2563eb;
+}
+
+.progress-fill {
+  transition: width 0.4s ease;
 }
 
 .activity-item{
@@ -241,6 +275,15 @@ body{
     cursor:pointer;
 }
 
+.form-box button {
+  transition: all 0.2s ease;
+}
+
+.form-box button:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
 /* ADD EXPENSE REDESIGN */
 
 .add-expense-layout{
@@ -270,6 +313,11 @@ body{
   cursor:pointer;
   background:#e2e8f0;
   transition:0.3s;
+}
+
+.category-btn:hover {
+  background: #cbd5e1;
+  transform: scale(1.03);
 }
 
 .active-category{
@@ -346,6 +394,15 @@ body{
   cursor:pointer;
 }
 
+.filter-buttons button {
+  transition: all 0.2s ease;
+}
+
+.filter-buttons button:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
 .active-filter{
   background:#1d4ed8 !important;
 }
@@ -362,6 +419,17 @@ body{
     border-radius:18px;
     box-shadow:0 4px 10px rgba(0,0,0,0.06);
 }
+
+.expense-card {
+  transition: all 0.25s ease;
+}
+
+.expense-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+}
+
+
 
 .expense-card h3{
     margin-bottom:10px;
@@ -395,12 +463,26 @@ body{
     cursor:pointer;
 }
 
+.actions button {
+  transition: all 0.2s ease;
+}
+
 .edit{
     background:#22c55e;
 }
 
 .delete{
     background:#ef4444;
+}
+
+.edit:hover {
+  background: #16a34a;
+  transform: scale(1.05);
+}
+
+.delete:hover {
+  background: #b91c1c;
+  transform: scale(1.05);
 }
 
 @media(max-width:1000px){
@@ -433,6 +515,16 @@ body{
   background:white;
 }
 
+.search-box {
+  transition: all 0.2s ease;
+}
+
+.search-box:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+}
+
 .toast {
   position: fixed;
   bottom: 25px;
@@ -452,6 +544,7 @@ body{
   transition: 0.25s ease;
   pointer-events: none;
   z-index: 9999;
+  animation: slideIn 0.25s ease;  
 }
 
 /* show state */
@@ -520,4 +613,15 @@ body{
   background:#ef4444;
   color:white;
   cursor:pointer;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

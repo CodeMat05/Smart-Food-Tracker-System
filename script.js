@@ -52,13 +52,13 @@ function updateDashboard(){
   });
 
   document.getElementById("totalExpenses")
-    .textContent = "₱" + total;
+    .textContent = "₱" + total.toLocaleString();
 
   document.getElementById("expenseCount")
     .textContent = cards.length;
 
   document.getElementById("todaySpending")
-    .textContent = "₱" + today;
+    .textContent = "₱" + today.toLocaleString();
 }
 
 function updateBudgetUsage(){
@@ -90,7 +90,7 @@ function updateBudgetUsage(){
   const displayRemaining = remaining < 0 ? 0 : remaining;
 
   document.getElementById("remainingBudget")
-    .textContent = "₱" + displayRemaining;
+    .textContent = "₱" + displayRemaining.toLocaleString();
 
   if(remaining < 0){
 
@@ -100,7 +100,8 @@ function updateBudgetUsage(){
       .style.color = "#ef4444";
 
     document.getElementById("overBudgetText")
-      .textContent = "Over Budget: ₱" + overBudget;
+      .textContent =
+      "Over Budget: ₱" + overBudget.toLocaleString();
 
     document.getElementById("overBudgetText")
       .style.color = "#ef4444";
@@ -140,8 +141,8 @@ function updateBudgetUsage(){
 
   document.getElementById("progressText")
     .textContent =
-    "₱" + totalExpense +
-    " of ₱" + budget +
+    "₱" + totalExpense.toLocaleString() +
+    " of ₱" + budget.toLocaleString() +
     " used";
 }
 
@@ -156,6 +157,8 @@ function updateBudget(){
     .textContent = "₱" + budget;
 
   updateBudgetUsage();
+
+  document.getElementById("budgetInput").value = "";
 }
 
 let selectedCategory = "Meals";
@@ -228,6 +231,11 @@ function addExpense(){
 
   if(name === "" || price === "" || date === ""){
     showToast("Please complete all fields", "error");
+    return;
+  }
+
+  if(price <= 0){
+    showToast("Price must be greater than 0", "error");
     return;
   }
 
@@ -458,10 +466,15 @@ function updateExpense(){
   const date =
     document.getElementById("expenseDate").value;
 
-    if(name === "" || price === "" || date === ""){
-      showToast("Please complete all fields", "error");
-      return;
-    }
+  if(name === "" || price === "" || date === ""){
+    showToast("Please complete all fields", "error");
+    return;
+  }
+
+  if(price <= 0){
+    showToast("Price must be greater than 0", "error");
+    return;
+  }
 
   currentCard.querySelector("h3")
     .textContent =
@@ -584,3 +597,6 @@ function addActivity(text){
 updateDashboard();
 updateRecentExpenses();
 updateBudgetUsage();
+
+document.getElementById("expenseDate").value =
+  new Date().toISOString().split("T")[0];
