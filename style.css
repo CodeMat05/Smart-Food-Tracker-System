@@ -630,3 +630,30 @@ button:focus {
     opacity: 1;
   }
 }
+
+/* MOBILE FIXES */
+@media (max-width: 700px){
+
+  .topbar{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .badge{
+    width: 100%;
+  }
+
+  .budget-controls{
+    flex-direction: column;
+  }
+
+  .budget-controls input{
+    width: 100%;
+  }
+
+  .budget-controls button{
+    width: 100%;
+  }
+
+}
