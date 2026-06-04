@@ -370,8 +370,6 @@ function searchExpenses(){
   const cards =
     document.querySelectorAll(".expense-card");
 
-  let visibleCount = 0;
-
   cards.forEach(card => {
 
     const title =
@@ -393,7 +391,6 @@ function searchExpenses(){
 
     if(matchesSearch && matchesCategory){
       card.style.display = "block";
-      visibleCount++;
     }
     else{
       card.style.display = "none";
@@ -644,14 +641,9 @@ function refreshAll(){
   searchExpenses();
 }
 
-refreshAll();
-
 document.getElementById("expenseDate").value =
   new Date().toISOString().split("T")[0];
 
 window.addEventListener("DOMContentLoaded", () => {
-  searchExpenses();
-  updateDashboard();
-  updateBudgetUsage();
-  updateRecentExpenses();
+  refreshAll();
 });
