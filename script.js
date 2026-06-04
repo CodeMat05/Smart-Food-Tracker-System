@@ -276,6 +276,7 @@ function addExpense(){
     .prepend(card);
 
   refreshAll();
+  updateEmptyState();
 
   addActivity("Added " + name);
 
@@ -300,6 +301,7 @@ function confirmDelete(){
   deleteTarget = null;
 
   refreshAll();
+  updateEmptyState();
 
   addActivity("Deleted " + name);
 
@@ -337,7 +339,25 @@ function filterExpenses(category, button){
   button.classList.add("active-filter");
 
   searchExpenses();
+}
 
+function updateEmptyState() {
+  const cards = document.querySelectorAll(".expense-card");
+  const emptyState = document.getElementById("noResults");
+
+  if (cards.length === 0) {
+    emptyState.style.display = "block";
+    return;
+  }
+
+  // check visible cards only
+  let visible = 0;
+
+  cards.forEach(card => {
+    if (card.style.display !== "none") visible++;
+  });
+
+  emptyState.style.display = visible === 0 ? "block" : "none";
 }
 
 function searchExpenses(){
@@ -381,8 +401,7 @@ function searchExpenses(){
 
   });
 
-  document.getElementById("noResults").style.display =
-    visibleCount === 0 ? "block" : "none";
+  updateEmptyState();
 }
 
 function editExpense(button){
@@ -505,6 +524,7 @@ function updateExpense(){
     "₱" + price;
   
   refreshAll();
+  updateEmptyState();
   
   addActivity("Updated " + name);
 
@@ -621,9 +641,17 @@ function refreshAll(){
   updateDashboard();
   updateBudgetUsage();
   updateRecentExpenses();
+  searchExpenses();
 }
 
 refreshAll();
 
 document.getElementById("expenseDate").value =
   new Date().toISOString().split("T")[0];
+
+window.addEventListener("DOMContentLoaded", () => {
+  searchExpenses();
+  updateDashboard();
+  updateBudgetUsage();
+  updateRecentExpenses();
+});

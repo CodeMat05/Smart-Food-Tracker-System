@@ -206,7 +206,7 @@
 
           <div class="preview-card">
 
-            <div id="previewEmoji" class="preview-emoji">🍔</div>
+            <div id="previewEmoji" class="preview-emoji">🍽️</div>
             <h2 id="previewName">Food Item</h2>
             <p id="previewCategory">Meal</p>
             <div id="previewPrice" class="preview-price">₱0</div>
@@ -260,160 +260,23 @@
 
       <div class="expense-list" id="expenseListContainer">
 
-        <div id="noResults" style="display:none; text-align:center; padding:20px;">
-          No matching expenses found.
-        </div>
+        <div id="noResults" class="empty-list-state">
 
-        <div class="expense-card">
-          <h3>🍽️ Chicken Adobo</h3>
-          <p>Category: Meals</p>
-          <p>Date: 2026-05-20</p>
-          <div class="price">₱120</div>
-          <div class="actions">
-            <button class="edit" onclick="editExpense(this)">
-              Edit
-            </button>
+          <div class="empty-icon">🗑️</div>
 
-            <button class="delete" onclick="deleteExpense(this)">
-              Delete
+          <h3 id="emptyTitle">No expenses yet</h3>
+
+          <p id="emptyMessage">
+            Start by adding your first food expense.
+          </p>
+
+          <div id="emptyActions">
+            <button class="empty-action-btn"
+              onclick="showPage('addExpense', document.querySelectorAll('.nav-btn')[1])">
+              ➕ Add First Expense
             </button>
           </div>
-        </div>
 
-        <div class="expense-card">
-          <h3>🥤 Milk Tea</h3>
-          <p>Category: Drinks</p>
-          <p>Date: 2026-05-20</p>
-          <div class="price">₱95</div>
-          <div class="actions">
-            <button class="edit" onclick="editExpense(this)">
-              Edit
-            </button>
-
-            <button class="delete" onclick="deleteExpense(this)">
-              Delete
-            </button>
-          </div>
-        </div>
-
-        <div class="expense-card">
-          <h3>🍟 Fries</h3>
-          <p>Category: Snacks</p>
-          <p>Date: 2026-05-19</p>
-          <div class="price">₱60</div>
-          <div class="actions">
-            <button class="edit" onclick="editExpense(this)">
-              Edit
-            </button>
-            <button class="delete" onclick="deleteExpense(this)">
-              Delete
-            </button>
-          </div>
-        </div>
-
-        <div class="expense-card">
-          <h3>🍽️ Egg Adobo</h3>
-          <p>Category: Meals</p>
-          <p>Date: 2026-05-18</p>
-          <div class="price">₱140</div>
-          <div class="actions">
-            <button class="edit" onclick="editExpense(this)">
-              Edit
-            </button>
-            <button class="delete" onclick="deleteExpense(this)">
-              Delete
-            </button>
-          </div>
-        </div>
-
-        <div class="expense-card">
-          <h3>🥤 Coffee</h3>
-          <p>Category: Drinks</p>
-          <p>Date: 2026-05-18</p>
-          <div class="price">₱50</div>
-          <div class="actions">
-            <button class="edit" onclick="editExpense(this)">
-              Edit
-            </button>
-            <button class="delete" onclick="deleteExpense(this)">
-              Delete
-            </button>
-          </div>
-        </div>
-
-        <div class="expense-card">
-          <h3>🍟 Donut</h3>
-          <p>Category: Snacks</p>
-          <p>Date: 2026-05-17</p>
-          <div class="price">₱35</div>
-          <div class="actions">
-            <button class="edit" onclick="editExpense(this)">
-              Edit
-            </button>
-            <button class="delete" onclick="deleteExpense(this)">
-              Delete
-            </button>
-          </div>
-        </div>
-
-        <div class="expense-card">
-          <h3>🍽️ Fried Chicken</h3>
-          <p>Category: Meals</p>
-          <p>Date: 2026-05-17</p>
-          <div class="price">₱130</div>
-          <div class="actions">
-            <button class="edit" onclick="editExpense(this)">
-              Edit
-            </button>
-            <button class="delete" onclick="deleteExpense(this)">
-              Delete
-            </button>
-          </div>
-        </div>
-
-        <div class="expense-card">
-          <h3>🥤 Soft Drink</h3>
-          <p>Category: Drinks</p>
-          <p>Date: 2026-05-16</p>
-          <div class="price">₱45</div>
-          <div class="actions">
-            <button class="edit" onclick="editExpense(this)">
-              Edit
-            </button>
-            <button class="delete" onclick="deleteExpense(this)">
-              Delete
-            </button>
-          </div>
-        </div>
-
-        <div class="expense-card">
-          <h3>🍟 Chips</h3>
-          <p>Category: Snacks</p>
-          <p>Date: 2026-05-16</p>
-          <div class="price">₱25</div>
-          <div class="actions">
-            <button class="edit" onclick="editExpense(this)">
-              Edit
-            </button>
-            <button class="delete" onclick="deleteExpense(this)">
-              Delete
-            </button>
-          </div>
-        </div>
-
-        <div class="expense-card">
-          <h3>🍽️ Pancit Canton</h3>
-          <p>Category: Meals</p>
-          <p>Date: 2026-05-15</p>
-          <div class="price">₱80</div>
-          <div class="actions">
-            <button class="edit" onclick="editExpense(this)">
-              Edit
-            </button>
-            <button class="delete" onclick="deleteExpense(this)">
-              Delete
-            </button>
-          </div>
         </div>
         
       </div>
