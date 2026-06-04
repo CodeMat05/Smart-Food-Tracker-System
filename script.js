@@ -345,19 +345,35 @@ function updateEmptyState() {
   const cards = document.querySelectorAll(".expense-card");
   const emptyState = document.getElementById("noResults");
 
-  if (cards.length === 0) {
+  let totalCards = cards.length;
+  let visibleCards = 0;
+
+  cards.forEach(card => {
+    if (card.style.display !== "none") {
+      visibleCards++;
+    }
+  });
+
+  // CASE 1: NO DATA AT ALL
+  if (totalCards === 0) {
     emptyState.style.display = "block";
+    emptyState.querySelector("h3").textContent = "No expenses yet";
+    emptyState.querySelector("p").textContent =
+      "Start by adding your first food expense.";
     return;
   }
 
-  // check visible cards only
-  let visible = 0;
+  // CASE 2: FILTER RESULT IS EMPTY
+  if (visibleCards === 0) {
+    emptyState.style.display = "block";
+    emptyState.querySelector("h3").textContent = "No matching expenses";
+    emptyState.querySelector("p").textContent =
+      "Try changing your filter or search keyword.";
+    return;
+  }
 
-  cards.forEach(card => {
-    if (card.style.display !== "none") visible++;
-  });
-
-  emptyState.style.display = visible === 0 ? "block" : "none";
+  // CASE 3: HAS VISIBLE ITEMS
+  emptyState.style.display = "none";
 }
 
 function searchExpenses(){
